@@ -3,35 +3,38 @@
 This is a template to rapidly prototype and create nextjs 14, prisma, and auth js applications.
 With the goal being to simplify the authentication and database synchronization process so developers can start creating their projects and working on the business logic sooner rather than later.
 
-The steps you'd have to do for the configuration process are as follows:
+The steps you'd have to take for the configuration process are as follows:
 
-clone the git repo
+1. clone the git repo
 
-create a .env file and add 
-DATABASE_URL = <postgres connection string>
+2. create a .env file and add the connection string to the database for prisma
+   <pre>DATABASE_URL = <postgres connection string></postgres></pre>
 
-e.g. DATABASE_URL="postgresql://janedoe:janedoe@localhost:5432/janedoe?schema=hello-prisma"
-if local or
-DATABASE_URL="postgresql://opnmyfngbknppm:XXX@ec2-46-137-91-216.eu-west-1.compute.amazonaws.com:5432/d50rgmkqi2ipus?schema=hello-prisma"
-if from a server.
+  e.g. 
+  <pre>DATABASE_URL="postgresql://janedoe:janedoe@localhost:5432/janedoe?schema=hello-prisma"</pre>
+  if local or
+  <pre>DATABASE_URL="postgresql://opnmyfngbknppm:XXX@ec2-46-137-91-216.eu-west-1.compute.amazonaws.com:5432/d50rgmkqi2ipus?schema=hello-prisma"</pre>
+  if from a server.
 
-please see prisma docs for more info:
-https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-typescript-postgresql#:~:text=PostgreSQL-,Connect%20your%20database,-To%20connect%20your
+  please see prisma docs for more info:
+  https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-typescript-postgresql#:~:text=PostgreSQL-,Connect%20your%20database,-To%20connect%20your
 
-To test the prisma setup, please run the migrate command: 
-npx prisma migrate dev --name init
+3. Create the database model from the prisma schema and create/read the todos
 
-please use the Thunderclient vs code extension, or postman to query the endpoint localhost:3000/api/todos.
+  To test the prisma setup, please run the migrate command: 
+  <pre>npx prisma migrate dev --name init</pre>
 
-the POST request should create 5 sample todos in the database
+  please use the Thunderclient vs code extension, or postman to query the endpoint localhost:3000/api/todos.
+  
+  the POST request should create 5 sample todos in the database
+  
+  while the GET request should return the 5 sample todos if the setup was succesful.
 
-while the GET request should return the 5 sample todos if the setup was succesful.
-
--
-auth js setup:
+-----
+ 4. auth js setup:
 
 
-
+-----
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
