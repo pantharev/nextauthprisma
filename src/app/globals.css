@@ -8,6 +8,12 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+@layer components {
+  .nav-link {
+    @apply hover:text-blue-500 transition duration-300 ease-in-out text-lg
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

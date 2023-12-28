@@ -10,6 +10,8 @@ export default async function ProtectedPage() {
         redirect('/');
     }
 
+
+
     return (
         <main className="flex min-h-screen flex-col items-center justify p-24 gap-y-5">
             <h1 className="underline text-xl">Protected Page</h1>

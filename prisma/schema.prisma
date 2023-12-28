@@ -20,6 +20,16 @@ model Todo {
   updatedAt DateTime @updatedAt
 }
 
+model Post {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  content     String 
+  like_count  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  author      User     @relation(fields: [userId], references: [id])
+}
+
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -55,6 +65,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  posts         Post[]
 }
 
 model VerificationToken {
