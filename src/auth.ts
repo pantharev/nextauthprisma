@@ -1,8 +1,13 @@
 import NextAuth, { NextAuthConfig } from "next-auth"
 import GitHub from "next-auth/providers/github"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaClient } from "@prisma/client"
+
+const prisma = new PrismaClient();
 
 export const authConfig: NextAuthConfig = {
   // Configure one or more authentication providers
+  adapter: PrismaAdapter(prisma),
   providers: [
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID,
@@ -10,6 +15,25 @@ export const authConfig: NextAuthConfig = {
     }),
     // ...add more providers here
   ],
+  callbacks: {
+    async session({ session, user }: {session: any, user: any}) {
+      session.user.id = user.id;
+      return session;
+    },
+    // authorized({ auth, request: { nextUrl }}) {
+    //     const isLoggedIn = !!auth?.user;
+    //     const paths = ['/protected']; // add more protected paths here
+    //     const isProtected = paths.some((path) => nextUrl.pathname.startsWith(path));
+
+    //     if(isProtected && !isLoggedIn) {
+    //         const redirectUrl = new URL("api/auth/signin", nextUrl.origin);
+    //         redirectUrl.searchParams.append("callbackUrl", nextUrl.href);
+    //         return Response.redirect(redirectUrl);
+    //     }
+
+    //     return true;
+    // }
+  },
   secret: process.env.NEXT_PUBLIC_SECRET,
 } as NextAuthConfig;
 
