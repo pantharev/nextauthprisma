@@ -2,9 +2,14 @@
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
+import { updatePost } from '../lib/actions'
+import PencilSquareIcon from '@heroicons/react/24/solid/PencilSquareIcon'
 
-export default function EditPostModal({ id, post } : { id: number, post: string }) {
-  let [isOpen, setIsOpen] = useState(true)
+export default function EditPostModal({ id, content } : { id: number, content: string }) {
+  let [isOpen, setIsOpen] = useState(false)
+
+
+  const editPostById = updatePost.bind(null, id);
 
   function closeModal() {
     setIsOpen(false)
@@ -23,12 +28,8 @@ export default function EditPostModal({ id, post } : { id: number, post: string 
   return (
     <>
       <div className="inset-0 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={openModal}
-          className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
-        >
-          Open dialog
+        <button className="bg-yellow-300 rounded-md p-3 text-black" type="button" onClick={openModal}>
+            <PencilSquareIcon className="h-6 w-6 text-black" />
         </button>
       </div>
 
@@ -66,21 +67,11 @@ export default function EditPostModal({ id, post } : { id: number, post: string 
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      <form>
-                        <input type="text" name="content" placeholder={post} className="text-black border border-b-2 border-black" />
+                      <form action={editPostById}>
+                        <textarea rows={5} cols={50} name="content" placeholder={content} className="text-black border border-b-2 border-black overflow-hidden"></textarea>
                         <button type="submit" className="bg-blue-500 rounded-md p-3 hover:bg-blue-400 focus:ring-2 text-black">Edit</button>
                       </form>
                     </p>
-                  </div>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
-                    >
-                      Got it, thanks!
-                    </button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

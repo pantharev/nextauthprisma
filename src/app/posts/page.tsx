@@ -11,6 +11,7 @@ import EditPostModall from "../components/EditPostModal";
 import RemovePostBtn from "../components/RemovePostBtn";
 import MyModal from "../components/MyDialog";
 import MyDialog from "../components/MyDialog";
+import EditPostModal from "../components/MyDialog";
 
 export default async function PostsPage() {
     const session = await auth(); // the auth function will return the session if the user is logged in, or null if not logged in
@@ -27,7 +28,6 @@ export default async function PostsPage() {
     return (
         <main className="p-24 min-h-screen w-[622px] mx-auto">
             <CreatePost />
-            <MyDialog />
             <ul className="flex flex-col justify-center items-center mt-5">
             {posts.map((post) => (
                 <li key={post.id} className="border border-b-slate-400 p-4">
@@ -41,9 +41,7 @@ export default async function PostsPage() {
                             <span>{likeCounter}</span>
                         </button>
                         <div className="flex space-x-2">
-                            <button className="bg-yellow-300 rounded-md p-3 text-black">
-                                <PencilSquareIcon className="h-6 w-6 text-black" /> {/* Use the PencilSquareIcon component */}
-                            </button>
+                            <EditPostModal id={post.id} content={post.content} />
                             <RemovePostBtn id={post.id}/>
                         </div>
                     </div>
