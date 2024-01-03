@@ -6,10 +6,13 @@ import { getPosts } from '@/app/lib/actions';
 import Image from 'next/image'
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-
+import { HeartIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'; // Import the HeartIcon component
+import EditPostModall from "../components/EditPostModal";
+import RemovePostBtn from "../components/RemovePostBtn";
+import MyModal from "../components/MyDialog";
+import MyDialog from "../components/MyDialog";
 
 export default async function PostsPage() {
-
     const session = await auth(); // the auth function will return the session if the user is logged in, or null if not logged in
 
     if(!session?.user) { // redirect user to home page if not logged in
@@ -19,9 +22,12 @@ export default async function PostsPage() {
     const posts = await getPosts();
     dayjs.extend(relativeTime);
 
+    const likeCounter = 0;
+
     return (
         <main className="p-24 min-h-screen w-[622px] mx-auto">
             <CreatePost />
+            <MyDialog />
             <ul className="flex flex-col justify-center items-center mt-5">
             {posts.map((post) => (
                 <li key={post.id} className="border border-b-slate-400 p-4">
@@ -29,6 +35,18 @@ export default async function PostsPage() {
                     <p>{post.content}</p>
                     <p>{post.author.name}</p>
                     <p>{dayjs(post.createdAt).fromNow()}</p>
+                    <div className="flex space-x-5">
+                        <button className="bg-blue-500 rounded-md p-3 hover:bg-blue-400 focus:ring-2 flex space-x-3">
+                            <HeartIcon className="h-6 w-6 text-white" /> {/* Use the HeartIcon component */}
+                            <span>{likeCounter}</span>
+                        </button>
+                        <div className="flex space-x-2">
+                            <button className="bg-yellow-300 rounded-md p-3 text-black">
+                                <PencilSquareIcon className="h-6 w-6 text-black" /> {/* Use the PencilSquareIcon component */}
+                            </button>
+                            <RemovePostBtn id={post.id}/>
+                        </div>
+                    </div>
                 </li>
             ))}
             </ul>
