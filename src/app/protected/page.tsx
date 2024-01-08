@@ -10,8 +10,6 @@ export default async function ProtectedPage() {
         redirect('/');
     }
 
-
-
     return (
         <main className="flex min-h-screen flex-col items-center justify p-24 gap-y-5">
             <h1 className="underline text-xl">Protected Page</h1>
@@ -19,7 +17,7 @@ export default async function ProtectedPage() {
             <p>Hi {session?.user?.name}!</p>
             <p>Your email is: {session?.user?.email}.</p>
             <p>(For developers: your prisma user id is: {session?.user?.id})</p>
-            <Image src={session?.user?.image} width={300} height={300} alt="Picture of the github user" />
+            <Image src={session?.user?.image || ''} width={300} height={300} alt="Picture of the github user" />
         </main>
     )
 }

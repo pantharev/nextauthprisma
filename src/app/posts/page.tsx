@@ -6,13 +6,8 @@ import { getPosts } from '@/app/lib/actions';
 import Image from 'next/image'
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { HeartIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'; // Import the HeartIcon component
-import EditPostModall from "../components/EditPostModal";
 import RemovePostBtn from "../components/RemovePostBtn";
-import MyModal from "../components/MyDialog";
-import MyDialog from "../components/MyDialog";
-import EditPostModal from "../components/MyDialog";
-import { likePost } from "@/app/lib/actions";
+import EditPostModal from "../components/EditPostModal";
 import LikePostBtn from "../components/LikePostBtn";
 
 export default async function PostsPage() {
@@ -33,7 +28,7 @@ export default async function PostsPage() {
             <ul className="flex flex-col justify-center items-center mt-5">
             {posts.map((post) => (
                 <li key={post.id} className="border border-b-slate-400 p-4">
-                    <Image src={post?.author?.image} width={50} height={50} className="rounded-[50%]" alt="Picture of the github user" />
+                    <Image src={post?.author?.image || ''} width={50} height={50} className="rounded-[50%]" alt="Picture of the github user" />
                     <p>{post.content}</p>
                     <p>{post.author.name}</p>
                     <p>{dayjs(post.createdAt).fromNow()}</p>

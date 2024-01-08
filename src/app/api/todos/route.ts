@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 
-export async function GET(req: NextApiRequest) {
+export async function GET() {
     const todos = await prisma.todo.findMany();
     console.log(todos);
 
@@ -20,7 +20,7 @@ export async function GET(req: NextApiRequest) {
     });
 }
 
-export async function POST(req: NextApiRequest) {
+export async function POST() {
     const todos = await prisma.todo.createMany({
         data: [
             { title: 'Buy Groceries', completed: false },
