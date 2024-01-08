@@ -99,5 +99,34 @@ export async function deletePost(id: number) {
     });
 }
 
+// Increment the like counter of a post given the id
+export async function likePost(id: number) {
+    const session = await auth();
+
+    if(!session?.user) {
+        throw new Error("You must be logged in to do this");
+    }
+
+    const post = await prisma.post.findUnique({
+        where: {
+            id,
+        },
+    });
+
+    if(!post) {
+        throw new Error("Post not found");
+    }
+
+    revalidatePath("/posts"); // reloads the page
+    return prisma.post.update({
+        where: {
+            id,
+        },
+        data: {
+            like_count: post.like_count + 1,
+        },
+    });
+}
+
 //CRUD posts
 

@@ -12,6 +12,8 @@ import RemovePostBtn from "../components/RemovePostBtn";
 import MyModal from "../components/MyDialog";
 import MyDialog from "../components/MyDialog";
 import EditPostModal from "../components/MyDialog";
+import { likePost } from "@/app/lib/actions";
+import LikePostBtn from "../components/LikePostBtn";
 
 export default async function PostsPage() {
     const session = await auth(); // the auth function will return the session if the user is logged in, or null if not logged in
@@ -35,12 +37,11 @@ export default async function PostsPage() {
                     <p>{post.content}</p>
                     <p>{post.author.name}</p>
                     <p>{dayjs(post.createdAt).fromNow()}</p>
-                    <div className="flex space-x-5">
-                        <button className="bg-blue-500 rounded-md p-3 hover:bg-blue-400 focus:ring-2 flex space-x-3">
-                            <HeartIcon className="h-6 w-6 text-white" /> {/* Use the HeartIcon component */}
-                            <span>{likeCounter}</span>
-                        </button>
-                        <div className="flex space-x-2">
+                    <div className="flex space-x-5 justify-between">
+                        <div className="">
+                            <LikePostBtn id={post.id} likeCount={post.like_count} />
+                        </div>
+                        <div className="flex space-x-2 items-center mr-5">
                             <EditPostModal id={post.id} content={post.content} />
                             <RemovePostBtn id={post.id}/>
                         </div>
