@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthConfig } from "next-auth"
 import GitHub from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 
@@ -13,6 +14,10 @@ export const authConfig: NextAuthConfig = {
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
     }),
+    GoogleProvider({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    })
     // ...add more providers here
   ],
   callbacks: {
