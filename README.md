@@ -33,6 +33,11 @@ The steps you'd have to take for the configuration process are as follows:
 -----
  4. auth js setup:
 
+ please see the official guide for setup info: https://authjs.dev/reference/nextjs
+
+ You'd have to create Oauth provider apps for each provider to create the client id and secrets, while ensuring the app url and redirect urls are set. Then you can add them to the environment variables (.env.local or in the production environment) for the config in src/auth.ts. 
+
+once you have the apps configured, you can test the sign-ins to ensure you can log in and access the protected and posts page. if you can, then you have setup the authjs succesfully
 
 -----
 
