@@ -3,7 +3,7 @@
 import Link from 'next/link'
 
 import { Sidebar } from 'flowbite-react';
-import { HiUser, HiHome, HiBookOpen } from 'react-icons/hi';
+import { HiUser, HiHome, HiBookOpen, HiLogin, HiLogout } from 'react-icons/hi';
 
 export default function Navigation() {
 
@@ -11,6 +11,8 @@ export default function Navigation() {
         { href: "/", label: "Home", icon: HiHome },
         { href: "/posts", label: "Posts", icon: HiBookOpen },
         { href: "/protected", label: "Profile Page", icon: HiUser },
+        { href: "/api/auth/signin?callbackUrl=/posts", label: "Sign In", icon: HiLogin },
+        { href: "/api/auth/signout?callbackUrl=/", label: "Sign Out", icon: HiLogout },
     ]
 
     return (

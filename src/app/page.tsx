@@ -8,7 +8,7 @@ export default function Home() {
       Nextjs 14, Prisma, auth js template app
 
       <p>To begin, please use the Login button to access the protected (profile) page or the Posts page below. If you try to access the protected page before login in, it should redirect you to this home page</p>
-      <Link href="/api/auth/signin?callbackUrl=/protected" className="bg-green-500 p-5 hover:bg-green-400">
+      <Link href="/api/auth/signin?callbackUrl=/posts" className="bg-green-500 p-5 hover:bg-green-400">
         Login
       </Link>
       <div className="flex space-x-5">
