@@ -23,16 +23,18 @@ export default async function PostsPage() {
     const likeCounter = 0;
 
     return (
-        <main className="p-24 min-h-screen w-[622px] mx-auto">
+        <main className="px-4 sm:p-24 min-h-screen w-full mx-auto">
             <CreatePost />
             <ul className="flex flex-col justify-center items-center mt-5">
             {posts.map((post) => (
-                <li key={post.id} className="border border-b-slate-400 p-4">
-                    <Image src={post?.author?.image || ''} width={50} height={50} className="rounded-[50%]" alt="Picture of the github user" />
-                    <p>{post.content}</p>
-                    <p>{post.author.name}</p>
-                    <p>{dayjs(post.createdAt).fromNow()}</p>
-                    <div className="flex space-x-5 justify-between">
+                <li key={post.id} className="border border-b-slate-400 p-4 max-w-lg mx-auto w-full my-2">
+                    <Image src={post?.author?.image || ''} width={50} height={50} className="rounded-full" alt="Picture of the github user" />
+                    <div className="flex-grow">
+                        <p>{post.content}</p>
+                        <p>{post.author.name}</p>
+                        <p>{dayjs(post.createdAt).fromNow()}</p>
+                    </div>
+                    <div className="flex space-x-5 justify-between mt-5">
                         <div className="">
                             <LikePostBtn id={post.id} likeCount={post.like_count} />
                         </div>

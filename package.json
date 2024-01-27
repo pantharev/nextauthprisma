@@ -15,11 +15,13 @@
     "@heroicons/react": "^2.1.1",
     "@prisma/client": "^5.7.1",
     "dayjs": "^1.11.10",
+    "flowbite-react": "^0.7.2",
     "next": "14.0.4",
     "next-auth": "^5.0.0-beta.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-modal": "^3.16.1"
+    "react-modal": "^3.16.1",
+    "react-pro-sidebar": "^1.1.0-alpha.2"
   },
   "devDependencies": {
     "@types/node": "^20",
