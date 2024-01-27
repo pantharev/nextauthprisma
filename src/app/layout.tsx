@@ -18,8 +18,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        {children}
+        <div className="flex flex-col md:flex-row">
+            <div className="md:w-64">
+            {/* Sidebar Component Here */}
+            <Navigation />
+            </div>
+            <div className="flex-1">
+              {/* Main Content Here */}
+              {children}
+            </div>
+        </div>
       </body>
     </html>
   )
