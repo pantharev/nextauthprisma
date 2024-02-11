@@ -12,7 +12,7 @@ export default async function WhoToFollow() {
                     <div>
                         {users.map((user) => (
                             <div key={user.id} className="flex justify-between items-center space-y-5">
-                                <p>{user.name}</p>
+                                <p>{user.email?.split("@")[0]}</p>
                                 <FollowUserBtn id={user.id} />
                             </div>
                         ))}
