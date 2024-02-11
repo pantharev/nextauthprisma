@@ -130,3 +130,56 @@ export async function likePost(id: number) {
 
 //CRUD posts
 
+//Users
+
+export async function getUsers() {
+    return prisma.user.findMany();
+}
+
+export async function followUserById(followingId: string) {
+    const session = await auth();
+
+    if(!session?.user) {
+        throw new Error("You must be logged in to do this");
+    }
+
+    const followerId = session.user.id;
+
+    try {
+      // Check if the follow relationship already exists
+      const existingFollow = await prisma.userFollow.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId: followerId,
+            followingId: followingId,
+          },
+        },
+      });
+  
+      if (existingFollow) {
+        console.log("You're already following this user.");
+        return; // Exit the function if the follow relationship already exists
+      }
+  
+      // Create a new follow relationship if it doesn't exist
+      const follow = await prisma.userFollow.create({
+        data: {
+          follower: {
+            connect: { id: followerId },
+          },
+          following: {
+            connect: { id: followingId },
+          },
+        },
+      });
+  
+      console.log('Followed successfully!');
+      return follow;
+    } catch (error) {
+      console.error('Error following user:', error);
+      throw error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+
