@@ -35,7 +35,7 @@ export default async function PostsPage() {
                                 <Image src={post?.author?.image || ''} width={50} height={50} className="rounded-full" alt="Picture of the github user" />
                                 <div>
                                     <div className="flex space-x-2 items-center">
-                                        <p className="text-sm text-gray-500">{post.author.name}</p>
+                                        <p className="text-sm text-gray-500">{post.author.email?.split("@")[0]}</p>
                                         <div className="w-2"><span className="unset">.</span></div>
                                         <p className="mt-2">{dayjs(post.createdAt).fromNow()}</p>
                                     </div>
