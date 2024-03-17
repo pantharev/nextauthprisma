@@ -3,6 +3,72 @@
 import { revalidatePath } from 'next/cache';
 import prisma from './db';
 import { auth } from '@/auth';
+import { writeFile, createReadStream, readFileSync } from 'fs';
+import path from 'path';
+import { S3Client, ListBucketsCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import AWS from 'aws-sdk';
+import { Readable } from 'stream';
+import S3rver from 's3rver';
+
+new S3rver({
+    port: 5000,
+    directory: "./s3",
+    configureBuckets: [
+    {
+        name: "apextweets",
+        configs: [readFileSync("./cors.xml")],
+    }
+    ]
+}).run();
+
+const UPLOAD_MAX_FILE_SIZE = 1000000; // 1MB
+
+const s3Client = new S3Client({
+    region: process.env.NEXT_AWS_S3_REGION,
+    credentials: {
+        accessKeyId: process.env.NEXT_AWS_S3_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.NEXT_AWS_S3_SECRET_ACCESS_KEY || ''
+    }
+});
+
+// const s3Client = new S3Client({ 
+//     region: process.env.AWS_REGION,
+//     endpoint: "http://localhost:5000",
+//     forcePathStyle: true,
+//     credentials: {
+//         accessKeyId: "S3RVER",
+//         secretAccessKey: "S3RVER"
+//     }
+// });
+
+AWS.config.update({ 
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION 
+});
+
+const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
+async function uploadFileToS3(file: Buffer, fileName: string) {
+    const fileBuffer = file; // useful to crop images
+
+    const params = {
+        Bucket: process.env.NEXT_AWS_S3_BUCKET_NAME,
+        Key: `images/${fileName}`,
+        Body: fileBuffer,
+        ContentType: "image/jpg"
+    }
+
+    const command = new PutObjectCommand(params);
+
+    try {
+        const response = await s3Client.send(command);
+        console.log("File uploaded succesfully:", response);
+        return fileName;
+    } catch(error) {
+        throw error;
+    }
+}
 
 // CREATE
 export async function createPost(formData: FormData) {
@@ -14,12 +80,33 @@ export async function createPost(formData: FormData) {
 
     console.log("Creating post...");
     console.log(formData.get("content"));
+    console.log(formData.get("file"));
     
+    const file = formData.get("file");
+
+    if(!formData.get("content")) {
+        throw new Error("Content is required");
+    }
+
+    if(!file) {
+        throw new Error("File is required");
+    }
+
+    console.log(file);
+
+    const buffer = Buffer.from(await (file as File).arrayBuffer());
+    console.log(buffer);
+    const fileName = (file as File).name.replaceAll(" ", "_");
+    console.log(fileName);
+    const fileRes = await uploadFileToS3(buffer, fileName);
+
+    console.log(fileRes);
+
     revalidatePath("/posts");
     return prisma.post.create({
         data: {
             userId: session.user?.id,
-            content: formData.get("content") as string,
+            content: formData.get("content") as string
         },
     });
 }

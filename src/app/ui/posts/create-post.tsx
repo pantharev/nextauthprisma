@@ -10,6 +10,7 @@ export default async function CreatePost() {
                 <div className="flex flex-col space-y-3">
                     <label htmlFor="content">Create a Post</label>
                     <textarea name="content" placeholder="What is happening?!" className="text-black"></textarea>
+                    <input name="file" type="file" id="file" accept="images/*" />
                 </div>
                 <button type="submit" className="bg-blue-500 rounded-md p-3 hover:bg-blue-400 focus:ring-2">Post</button>
             </form>
