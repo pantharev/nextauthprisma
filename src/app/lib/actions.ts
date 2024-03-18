@@ -8,18 +8,18 @@ import path from 'path';
 import { S3Client, ListBucketsCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import AWS from 'aws-sdk';
 import { Readable } from 'stream';
-import S3rver from 's3rver';
+// import S3rver from 's3rver';
 
-new S3rver({
-    port: 5000,
-    directory: "./s3",
-    configureBuckets: [
-    {
-        name: "apextweets",
-        configs: [readFileSync("./cors.xml")],
-    }
-    ]
-}).run();
+// new S3rver({
+//     port: 5000,
+//     directory: "./s3",
+//     configureBuckets: [
+//     {
+//         name: "apextweets",
+//         configs: [readFileSync("./cors.xml")],
+//     }
+//     ]
+// }).run();
 
 const UPLOAD_MAX_FILE_SIZE = 1000000; // 1MB
 
@@ -64,7 +64,8 @@ async function uploadFileToS3(file: Buffer, fileName: string) {
     try {
         const response = await s3Client.send(command);
         console.log("File uploaded succesfully:", response);
-        return fileName;
+        const fileUrl = `https://${process.env.NEXT_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_AWS_S3_REGION}.amazonaws.com/images/${fileName}`;
+        return fileUrl;
     } catch(error) {
         throw error;
     }
@@ -98,14 +99,15 @@ export async function createPost(formData: FormData) {
     console.log(buffer);
     const fileName = (file as File).name.replaceAll(" ", "_");
     console.log(fileName);
-    const fileRes = await uploadFileToS3(buffer, fileName);
+    const fileUrl = await uploadFileToS3(buffer, fileName);
 
-    console.log(fileRes);
+    console.log(fileUrl);
 
     revalidatePath("/posts");
     return prisma.post.create({
         data: {
             userId: session.user?.id,
+            fileUrl: fileUrl,
             content: formData.get("content") as string
         },
     });

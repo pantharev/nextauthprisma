@@ -42,6 +42,9 @@ export default async function PostsPage() {
                                     <div className="flex-grow">
                                         <p className="font-semibold">{post.content}</p>
                                     </div>
+                                    <div>
+                                        <Image src={post.fileUrl || ''} width={500} height={500} alt="Post Image" />
+                                    </div>
                                     <div className="flex space-x-5 justify-between mt-5">
                                         <LikePostBtn id={post.id} likeCount={post.like_count} />
                                         <div className="flex space-x-2 items-center mr-5">
